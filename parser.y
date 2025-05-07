@@ -6,6 +6,7 @@ int yylex(void);
 void yyerror(const char *s);
 %}
 
+
 %union{
     long double num;
 }
