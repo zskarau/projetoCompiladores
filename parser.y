@@ -10,7 +10,6 @@ void yyerror(const char *s);
     long double num;
 }
 
-
 /* declaracao de tokens */
 %token <num> NUMBER
 %token ADD SUB MUL DIV
