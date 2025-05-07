@@ -7,7 +7,7 @@ void yyerror(const char *s);
 %}
 
 %union{
-    long double num;
+    double num;
 }
 
 /* declaracao de tokens */

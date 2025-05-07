@@ -484,8 +484,8 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    22,    22,    23,    26,    27,    28,    31,    32,    33,
-      36
+       0,    21,    21,    22,    25,    26,    27,    30,    31,    32,
+      35
 };
 #endif
 
@@ -1062,31 +1062,31 @@ yyreduce:
   switch (yyn)
     {
   case 3: /* calclist: calclist exp EOL  */
-#line 23 "parser.y"
+#line 22 "parser.y"
                            { printf("= %g\n", (yyvsp[-1].num)); }
 #line 1068 "parser.tab.c"
     break;
 
   case 5: /* exp: exp ADD factor  */
-#line 27 "parser.y"
+#line 26 "parser.y"
                          { (yyval.num) = (yyvsp[-2].num) + (yyvsp[0].num); }
 #line 1074 "parser.tab.c"
     break;
 
   case 6: /* exp: exp SUB factor  */
-#line 28 "parser.y"
+#line 27 "parser.y"
                          { (yyval.num) = (yyvsp[-2].num) - (yyvsp[0].num); }
 #line 1080 "parser.tab.c"
     break;
 
   case 8: /* factor: factor MUL term  */
-#line 32 "parser.y"
+#line 31 "parser.y"
                           { (yyval.num) = (yyvsp[-2].num) * (yyvsp[0].num); }
 #line 1086 "parser.tab.c"
     break;
 
   case 9: /* factor: factor DIV term  */
-#line 33 "parser.y"
+#line 32 "parser.y"
                           { if((yyvsp[0].num) == 0){ printf("erro divisão por zero"); } (yyval.num) = (yyvsp[-2].num) / (yyvsp[0].num); }
 #line 1092 "parser.tab.c"
     break;
@@ -1286,7 +1286,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 38 "parser.y"
+#line 37 "parser.y"
 
 
 int main(int argc, char **argv)

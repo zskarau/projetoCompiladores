@@ -70,7 +70,7 @@ union YYSTYPE
 {
 #line 9 "parser.y"
 
-    long double num;
+    double num;
 
 #line 76 "parser.tab.h"
 
