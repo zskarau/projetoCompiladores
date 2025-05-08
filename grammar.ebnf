@@ -1,0 +1,44 @@
+CMP  ::=  '>' | '<' | '>=' | '<=' | '<>' | '=='
+EXP  ::=  ([Ee][+-]?[0-9]+)
+NUMBER ::=  [0-9]+'.'[0-9]*(EXP)? | '.'?[0-9]+(EXP)?
+NAME  ::=  [a-zA-Z_][a-zA-Z0-9_]*
+FUNC  ::=  'sqrt' | 'exp' | 'log' | 'print'
+WS  ::=  [ ]+
+EOL  ::=  '\n'
+IF  ::=  'if'
+THEN  ::=  'then'
+ELSE  ::=  'else'
+WHILE  ::=  'while'
+DO  ::=  'do'
+LET  ::=  'let'
+
+stmt  ::=  IF WS exp WS THEN list
+    | IF exp THEN list ELSE list
+    | WHILE exp DO list
+    | exp
+
+list  ::= ''  
+    | stmt ';' list
+
+exp  ::=  exp CMP exp
+    | exp '+' exp
+    | exp '-' exp
+    | exp '*' exp
+    | exp '/' exp
+    | '(' exp ')'
+    | NUMBER
+    | NAME
+    | NAME '=' exp
+    | FUNC '(' explist ')'
+    | NAME '(' explist ')'
+    
+explist ::= exp
+    | exp ',' explist
+
+symlist ::=  NAME
+    | NAME ',' symlist
+
+calclist  ::=  ''
+    | calclist stmt EOL
+    | calclist LET NAME '(' symlist ')' '=' list EOL
+    | calclist 'error' EOL
