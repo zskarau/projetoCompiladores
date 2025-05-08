@@ -37,6 +37,6 @@ run: $(EXE)
 
 # Clean
 clean:
-	del /f /q *.exe *.o *.c *.h 2>NUL || rm -f *.exe *.o *.c *.h
+	del /f /q *.exe *.o *.c 2>NUL || rm -f *.exe *.o *.c *.h
 
 .PHONY: all run clean
