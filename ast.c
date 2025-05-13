@@ -3,7 +3,9 @@
 #include <stdarg.h>
 #include <string.h>
 #include <math.h>
-#include "ast_dec.h"
+#include "ast.h"
+
+struct symbol symtab[NHASH];
 
 // Função de hashing
 static unsigned symhash(char *sym) {

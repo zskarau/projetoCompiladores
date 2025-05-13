@@ -1,7 +1,7 @@
 %option noyywrap nodefault yylineno
 
 %{
-    #include "ast_impl.h"
+    #include "ast.h"
     #include "parser.tab.h"
 %}
 /* expoente float */
