@@ -3,6 +3,10 @@
  */
 
 /* interface com o lexer */
+
+#ifndef AST_H
+#define AST_H
+
 extern int yylineno;
 void yyerror(char *s, ...);
 
@@ -16,7 +20,7 @@ struct symbol {
 
 /* tabela de símbolos de tamanho fixo */
 #define NHASH 9997
-struct symbol symtab[NHASH];
+extern struct symbol symtab[NHASH];
 
 struct symbol *lookup(char*);
 
@@ -109,3 +113,5 @@ double eval(struct ast *);
 
 /* deletar e liberar uma AST */
 void treefree(struct ast *);
+
+#endif

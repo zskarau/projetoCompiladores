@@ -13,7 +13,7 @@ CC = gcc
 # Source files
 LEX_SRC = lexer.l
 YACC_SRC = parser.y
-C_FILES = lex.yy.c parser.tab.c
+C_FILES = lex.yy.c parser.tab.c ast.c
 HEADERS = parser.tab.h
 OUTPUT = main
 
@@ -37,6 +37,6 @@ run: $(EXE)
 
 # Clean
 clean:
-	del /f /q *.exe *.o *.c 2>NUL || rm -f *.exe *.o *.c *.h
+	del /f /q *.exe *.o *.tab.c *.tab.h 2>NUL || rm -f *.exe *.o *.tab.c *.tab.h
 
 .PHONY: all run clean
