@@ -12,9 +12,9 @@ EXP ([Ee][+-]?[0-9]+)
 ">"     { yylval.fn = 1; return CMP; }    /* operadores de comparação, todos são token CMP */
 "<"     { yylval.fn = 2; return CMP; }
 "<>"    { yylval.fn = 3; return CMP; }
-"<="    { yylval.fn = 4; return CMP; }
+"=="    { yylval.fn = 4; return CMP; }
 ">="    { yylval.fn = 5; return CMP; }
-"=="    { yylval.fn = 6; return CMP; }
+"<="    { yylval.fn = 6; return CMP; }
 
 "if"    { return IF; }
 "then"  { return THEN; }
