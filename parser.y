@@ -7,7 +7,7 @@
 
 %union {
     struct ast *a;
-    double d;
+    long double d;
     struct symbol *s;   /* qual símbolo? */
     struct symlist *sl;
     int fn;             /* qual função? */
@@ -76,7 +76,7 @@ symlist:
 calclist:
       /* vazio! */
     | calclist stmt EOL {
-          printf("= %.4g\n", eval($2));
+          printf("= %g\n", (double)eval($2));
           treefree($2);
       }
     | calclist LET NAME '(' symlist ')' '=' list EOL {
