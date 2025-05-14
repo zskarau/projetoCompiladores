@@ -114,4 +114,8 @@ double eval(struct ast *);
 /* deletar e liberar uma AST */
 void treefree(struct ast *);
 
+//Flex & Bison shinanigans
+int yyparse(void);
+int yylex(void);
+
 #endif
