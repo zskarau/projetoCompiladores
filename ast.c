@@ -7,7 +7,7 @@
 
 struct symbol symtab[NHASH];
 
-// Função de hashing
+// Funcao de hashing
 static unsigned symhash(char *sym) {
     unsigned int hash = 0;
     unsigned c;
@@ -41,11 +41,11 @@ struct symbol *lookup(char *sym) {
     abort();
 }
 
-// Criação de nós AST
+// Criacao de nós AST
 struct ast *newast(int nodetype, struct ast *l, struct ast *r) {
     struct ast *a = malloc(sizeof(struct ast));
     if (!a) {
-        yyerror("sem espaço");
+        yyerror("sem espaco");
         exit(0);
     }
     a->nodetype = nodetype;
@@ -57,7 +57,7 @@ struct ast *newast(int nodetype, struct ast *l, struct ast *r) {
 struct ast *newnum(double d) {
     struct numval *a = malloc(sizeof(struct numval));
     if (!a) {
-        yyerror("sem espaço");
+        yyerror("sem espaco");
         exit(0);
     }
     a->nodetype = 'K';
@@ -68,7 +68,7 @@ struct ast *newnum(double d) {
 struct ast *newcmp(int cmptype, struct ast *l, struct ast *r) {
     struct ast *a = malloc(sizeof(struct ast));
     if (!a) {
-        yyerror("sem espaço");
+        yyerror("sem espaco");
         exit(0);
     }
     a->nodetype = '0' + cmptype;
@@ -80,7 +80,7 @@ struct ast *newcmp(int cmptype, struct ast *l, struct ast *r) {
 struct ast *newfunc(int functype, struct ast *l) {
     struct fncall *a = malloc(sizeof(struct fncall));
     if (!a) {
-        yyerror("sem espaço");
+        yyerror("sem espaco");
         exit(0);
     }
     a->nodetype = 'F';
@@ -92,7 +92,7 @@ struct ast *newfunc(int functype, struct ast *l) {
 struct ast *newcall(struct symbol *s, struct ast *l) {
     struct ufncall *a = malloc(sizeof(struct ufncall));
     if (!a) {
-        yyerror("sem espaço");
+        yyerror("sem espaco");
         exit(0);
     }
     a->nodetype = 'C';
@@ -104,7 +104,7 @@ struct ast *newcall(struct symbol *s, struct ast *l) {
 struct ast *newref(struct symbol *s) {
     struct symref *a = malloc(sizeof(struct symref));
     if (!a) {
-        yyerror("sem espaço");
+        yyerror("sem espaco");
         exit(0);
     }
     a->nodetype = 'N';
@@ -115,7 +115,7 @@ struct ast *newref(struct symbol *s) {
 struct ast *newasgn(struct symbol *s, struct ast *v) {
     struct symasgn *a = malloc(sizeof(struct symasgn));
     if (!a) {
-        yyerror("sem espaço");
+        yyerror("sem espaco");
         exit(0);
     }
     a->nodetype = '=';
@@ -127,7 +127,7 @@ struct ast *newasgn(struct symbol *s, struct ast *v) {
 struct ast *newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *el) {
     struct flow *a = malloc(sizeof(struct flow));
     if (!a) {
-        yyerror("sem espaço");
+        yyerror("sem espaco");
         exit(0);
     }
     a->nodetype = nodetype;
@@ -140,12 +140,12 @@ struct ast *newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *
 // Libera uma AST
 void treefree(struct ast *a) {
     switch(a->nodetype) {
-        // duas subárvores
+        // duas subarvores
         case '+': case '-': case '*': case '/':
         case '1': case '2': case '3': case '4':
         case '5': case '6': case 'L':
             treefree(a->r);
-            // cair para o caso de uma subárvore
+            // cair para o caso de uma subarvore
         case 'F': case 'C':
             treefree(a->l);
             break;
@@ -172,7 +172,7 @@ void treefree(struct ast *a) {
 struct symlist *newsymlist(struct symbol *sym, struct symlist *next) {
     struct symlist *sl = malloc(sizeof(struct symlist));
     if (!sl) {
-        yyerror("sem espaço");
+        yyerror("sem espaco");
         exit(0);
     }
     sl->sym = sym;
@@ -189,7 +189,7 @@ void symlistfree(struct symlist *sl) {
     }
 }
 
-// Avaliação de AST
+// Avaliacao de AST
 static double callbuiltin(struct fncall *);
 static double calluser(struct ufncall *);
 
@@ -276,7 +276,7 @@ double eval(struct ast *a) {
     return v;
 }
 
-// Funções built-in
+// Funcoes built-in
 static double callbuiltin(struct fncall *f) {
     enum bifs functype = f->functype;
     double v = eval(f->l);
@@ -292,12 +292,12 @@ static double callbuiltin(struct fncall *f) {
             printf("= %4.4g\n", v);
             return v;
         default:
-            yyerror("Função pré-definida %d desconhecida\n", functype);
+            yyerror("Funcao pre-definida %d desconhecida\n", functype);
             return 0.0;
     }
 }
 
-// Definição de função do usuário
+// Definicao de funcao do usuario
 void dodef(struct symbol *name, struct symlist *syms, struct ast *func) {
     if (name->syms)
         symlistfree(name->syms);
@@ -308,7 +308,7 @@ void dodef(struct symbol *name, struct symlist *syms, struct ast *func) {
     name->func = func;
 }
 
-// Chamada de função do usuário
+// Chamada de funcao do usuario
 static double calluser(struct ufncall *f) {
     struct symbol *fn = f->s;
     struct symlist *sl;
@@ -318,7 +318,7 @@ static double calluser(struct ufncall *f) {
     int nargs, i;
 
     if (!fn->func) {
-        yyerror("Chamada para função %s indefinida", fn->name);
+        yyerror("Chamada para funcao %s indefinida", fn->name);
         return 0.0;
     }
 
@@ -329,14 +329,14 @@ static double calluser(struct ufncall *f) {
     oldval = malloc(nargs * sizeof(double));
     newval = malloc(nargs * sizeof(double));
     if (!oldval || !newval) {
-        yyerror("Sem espaço em %s", fn->name);
+        yyerror("Sem espaco em %s", fn->name);
         return 0.0;
     }
 
     sl = fn->syms;
     for (i = 0; i < nargs; i++) {
         if (!args) {
-            yyerror("Poucos argumentos na chamada da função %s", fn->name);
+            yyerror("Poucos argumentos na chamada da funcao %s", fn->name);
             free(oldval);
             free(newval);
             return 0.0;
@@ -374,7 +374,7 @@ static double calluser(struct ufncall *f) {
     return v;
 }
 
-// Função de erro
+// Funcao de erro
 void yyerror(char *s, ...) {
     va_list ap;
     va_start(ap, s);
@@ -383,7 +383,7 @@ void yyerror(char *s, ...) {
     fprintf(stderr, "\n");
 }
 
-// Função principal
+// Funcao principal
 int main() {
     printf("> ");
     return yyparse();
