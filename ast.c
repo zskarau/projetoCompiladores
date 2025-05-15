@@ -124,7 +124,7 @@ struct ast *newasgn(struct symbol *s, struct ast *v) {
     return (struct ast *)a;
 }
 
-struct ast *newflow(evaluation nodetype, struct ast *cond, struct ast *tl, struct ast *el) {
+struct ast *newflow(evaluation nodetype, struct ast *cond, struct ast *tl, struct ast *el, struct ast *init) {
     struct flow *a = malloc(sizeof(struct flow));
     if (!a) {
         yyerror("sem espaco");
@@ -134,6 +134,7 @@ struct ast *newflow(evaluation nodetype, struct ast *cond, struct ast *tl, struc
     a->cond = cond;
     a->tl = tl;
     a->el = el;
+    a->init = init;
     return (struct ast *)a;
 }
 
@@ -155,11 +156,12 @@ void treefree(struct ast *a) {
         case Assignment:
             free(((struct symasgn *)a)->v);
             break;
-        case If_else: case While: {
+        case If_else: case While: case For: {
             struct flow *f = (struct flow *)a;
             treefree(f->cond);
             if (f->tl) treefree(f->tl);
             if (f->el) treefree(f->el);
+            if (f->init) treefree(f->init);
             break;
         }
         default:
@@ -264,8 +266,9 @@ double eval(struct ast *a) {
             struct flow *f = (struct flow *)a;
             v = 0.0;
             if (f->tl) {
-                while (eval(f->cond) != 0)
+                for (eval(f->init);eval(f->cond) != 0;eval(f->el))
                     v = eval(f->tl);
+                v = eval(f->tl);
             }
             break;
         }

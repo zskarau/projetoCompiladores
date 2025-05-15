@@ -104,6 +104,7 @@ struct flow {       /* tipo I ou W */
     struct ast *cond;   /* condição */
     struct ast *tl;     /* ramo "then" ou lista "do" */
     struct ast *el;     /* ramo opcional "else" */
+    struct ast *init;   /* inicialização for */
 };
 
 struct numval {
@@ -130,7 +131,7 @@ struct ast *newcall(struct symbol *s, struct ast *l);
 struct ast *newref(struct symbol *s);
 struct ast *newasgn(struct symbol *s, struct ast *v);
 struct ast *newnum(double d);
-struct ast *newflow(evaluation nodetype, struct ast *cond, struct ast *tl, struct ast *tr);
+struct ast *newflow(evaluation nodetype, struct ast *cond, struct ast *tl, struct ast *el, struct ast *init);
 
 /* definição de uma função */
 void dodef(struct symbol *name, struct symlist *syms, struct ast *stmts);
