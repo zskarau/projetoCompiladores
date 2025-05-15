@@ -9,12 +9,12 @@ EXP ([Ee][+-]?[0-9]+)
 %%
 "+"|"-"|"*"|"/"|"="|","|";"|"("|")" { return yytext[0]; }
 
-">"     { yylval.fn = 1; return CMP; }    /* operadores de comparação, todos são token CMP */
-"<"     { yylval.fn = 2; return CMP; }
-"<>"    { yylval.fn = 3; return CMP; }
-"=="    { yylval.fn = 4; return CMP; }
-">="    { yylval.fn = 5; return CMP; }
-"<="    { yylval.fn = 6; return CMP; }
+">"     { yylval.fn = Greater; return CMP; }    /* operadores de comparação, todos são token CMP */
+"<"     { yylval.fn = Less; return CMP; }
+"<>"    { yylval.fn = Not_equal; return CMP; }
+"=="    { yylval.fn = Equal; return CMP; }
+">="    { yylval.fn = Greater_equal; return CMP; }
+"<="    { yylval.fn = Less_equal; return CMP; }
 
 "if"    { return IF; }
 "then"  { return THEN; }

@@ -33,9 +33,9 @@
 %%
 
 stmt:
-      IF exp THEN list                { $$ = newflow('I', $2, $4, NULL); }
-    | IF exp THEN list ELSE list     { $$ = newflow('I', $2, $4, $6); }
-    | WHILE exp DO list              { $$ = newflow('W', $2, $4, NULL); }
+      IF exp THEN list                { $$ = newflow(If_else, $2, $4, NULL); }
+    | IF exp THEN list ELSE list     { $$ = newflow(If_else, $2, $4, $6); }
+    | WHILE exp DO list              { $$ = newflow(While, $2, $4, NULL); }
     | exp
 ;
 
@@ -45,16 +45,16 @@ list:
           if ($3 == NULL)
               $$ = $1;
           else
-              $$ = newast('L', $1, $3);
+              $$ = newast(Statement, $1, $3);
       }
 ;
 
 exp:
       exp CMP exp        { $$ = newcmp($2, $1, $3); }
-    | exp '+' exp        { $$ = newast('+', $1, $3); }
-    | exp '-' exp        { $$ = newast('-', $1, $3); }
-    | exp '*' exp        { $$ = newast('*', $1, $3); }
-    | exp '/' exp        { $$ = newast('/', $1, $3); }
+    | exp '+' exp        { $$ = newast(Addition, $1, $3); }
+    | exp '-' exp        { $$ = newast(Subtraction, $1, $3); }
+    | exp '*' exp        { $$ = newast(Multiplication, $1, $3); }
+    | exp '/' exp        { $$ = newast(Division, $1, $3); }
     | '(' exp ')'        { $$ = $2; }
     | NUMBER             { $$ = newnum($1); }
     | NAME               { $$ = newref($1); }
@@ -65,7 +65,7 @@ exp:
 
 explist:
       exp                { $$ = $1; }
-    | exp ',' explist    { $$ = newast('L', $1, $3); }
+    | exp ',' explist    { $$ = newast(Statement, $1, $3); }
 ;
 
 symlist:

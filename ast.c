@@ -42,7 +42,7 @@ struct symbol *lookup(char *sym) {
 }
 
 // Criacao de nós AST
-struct ast *newast(int nodetype, struct ast *l, struct ast *r) {
+struct ast *newast(evaluation nodetype, struct ast *l, struct ast *r) {
     struct ast *a = malloc(sizeof(struct ast));
     if (!a) {
         yyerror("sem espaco");
@@ -60,18 +60,18 @@ struct ast *newnum(double d) {
         yyerror("sem espaco");
         exit(0);
     }
-    a->nodetype = 'K';
+    a->nodetype = Constant;
     a->number = d;
     return (struct ast *)a;
 }
 
-struct ast *newcmp(int cmptype, struct ast *l, struct ast *r) {
+struct ast *newcmp(evaluation cmptype, struct ast *l, struct ast *r) {
     struct ast *a = malloc(sizeof(struct ast));
     if (!a) {
         yyerror("sem espaco");
         exit(0);
     }
-    a->nodetype = '0' + cmptype;
+    a->nodetype = cmptype;
     a->l = l;
     a->r = r;
     return a;
@@ -83,7 +83,7 @@ struct ast *newfunc(int functype, struct ast *l) {
         yyerror("sem espaco");
         exit(0);
     }
-    a->nodetype = 'F';
+    a->nodetype = B_call;
     a->l = l;
     a->functype = functype;
     return (struct ast *)a;
@@ -95,7 +95,7 @@ struct ast *newcall(struct symbol *s, struct ast *l) {
         yyerror("sem espaco");
         exit(0);
     }
-    a->nodetype = 'C';
+    a->nodetype = User_call;
     a->l = l;
     a->s = s;
     return (struct ast *)a;
@@ -107,7 +107,7 @@ struct ast *newref(struct symbol *s) {
         yyerror("sem espaco");
         exit(0);
     }
-    a->nodetype = 'N';
+    a->nodetype = Variable;
     a->s = s;
     return (struct ast *)a;
 }
@@ -118,13 +118,13 @@ struct ast *newasgn(struct symbol *s, struct ast *v) {
         yyerror("sem espaco");
         exit(0);
     }
-    a->nodetype = '=';
+    a->nodetype = Assignment;
     a->s = s;
     a->v = v;
     return (struct ast *)a;
 }
 
-struct ast *newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *el) {
+struct ast *newflow(evaluation nodetype, struct ast *cond, struct ast *tl, struct ast *el) {
     struct flow *a = malloc(sizeof(struct flow));
     if (!a) {
         yyerror("sem espaco");
@@ -141,20 +141,21 @@ struct ast *newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *
 void treefree(struct ast *a) {
     switch(a->nodetype) {
         // duas subarvores
-        case '+': case '-': case '*': case '/':
-        case '1': case '2': case '3': case '4':
-        case '5': case '6': case 'L':
+        case Addition: case Subtraction: 
+        case Multiplication: case Division:
+        case Greater: case Less: case Not_equal: case Equal:
+        case Greater_equal: case Less_equal: case Statement:
             treefree(a->r);
             // cair para o caso de uma subarvore
-        case 'F': case 'C':
+        case B_call: case User_call:
             treefree(a->l);
             break;
-        case 'K': case 'N':
+        case Constant: case Variable:
             break;
-        case '=':
+        case Assignment:
             free(((struct symasgn *)a)->v);
             break;
-        case 'I': case 'W': {
+        case If_else: case While: {
             struct flow *f = (struct flow *)a;
             treefree(f->cond);
             if (f->tl) treefree(f->tl);
@@ -202,46 +203,46 @@ double eval(struct ast *a) {
     }
 
     switch (a->nodetype) {
-        case 'K':
+        case Constant:
             v = ((struct numval *)a)->number;
             break;
-        case 'N':
+        case Variable:
             v = ((struct symref *)a)->s->value;
             break;
-        case '=':
+        case Assignment:
             v = ((struct symasgn *)a)->s->value = eval(((struct symasgn *)a)->v);
             break;
-        case '+':
+        case Addition:
             v = eval(a->l) + eval(a->r);
             break;
-        case '-':
+        case Subtraction:
             v = eval(a->l) - eval(a->r);
             break;
-        case '*':
+        case Multiplication:
             v = eval(a->l) * eval(a->r);
             break;
-        case '/':
+        case Division:
             v = eval(a->l) / eval(a->r);
             break;
-        case '1':
+        case Greater:
             v = (eval(a->l) > eval(a->r)) ? 1 : 0;
             break;
-        case '2':
+        case Less:
             v = (eval(a->l) < eval(a->r)) ? 1 : 0;
             break;
-        case '3':
+        case Not_equal:
             v = (eval(a->l) != eval(a->r)) ? 1 : 0;
             break;
-        case '4':
+        case Equal:
             v = (eval(a->l) == eval(a->r)) ? 1 : 0;
             break;
-        case '5':
+        case Greater_equal:
             v = (eval(a->l) >= eval(a->r)) ? 1 : 0;
             break;
-        case '6':
+        case Less_equal:
             v = (eval(a->l) <= eval(a->r)) ? 1 : 0;
             break;
-        case 'I': {
+        case If_else: {
             struct flow *f = (struct flow *)a;
             if (eval(f->cond) != 0) {
                 v = f->tl ? eval(f->tl) : 0.0;
@@ -250,7 +251,7 @@ double eval(struct ast *a) {
             }
             break;
         }
-        case 'W': {
+        case While: {
             struct flow *f = (struct flow *)a;
             v = 0.0;
             if (f->tl) {
@@ -259,14 +260,23 @@ double eval(struct ast *a) {
             }
             break;
         }
-        case 'L':
+        case For: {
+            struct flow *f = (struct flow *)a;
+            v = 0.0;
+            if (f->tl) {
+                while (eval(f->cond) != 0)
+                    v = eval(f->tl);
+            }
+            break;
+        }
+        case Statement:
             eval(a->l);
             v = eval(a->r);
             break;
-        case 'F':
+        case B_call:
             v = callbuiltin((struct fncall *)a);
             break;
-        case 'C':
+        case User_call:
             v = calluser((struct ufncall *)a);
             break;
         default:
@@ -342,7 +352,7 @@ static double calluser(struct ufncall *f) {
             return 0.0;
         }
 
-        if (args->nodetype == 'L') {
+        if (args->nodetype == Statement) {
             newval[i] = eval(args->l);
             args = args->r;
         } else {
