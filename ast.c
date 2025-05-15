@@ -225,22 +225,22 @@ double eval(struct ast *a) {
             v = eval(a->l) / eval(a->r);
             break;
         case Greater:
-            v = (eval(a->l) > eval(a->r)) ? 1 : 0;
+            v = eval(a->l) > eval(a->r);
             break;
         case Less:
-            v = (eval(a->l) < eval(a->r)) ? 1 : 0;
+            v = eval(a->l) < eval(a->r);
             break;
         case Not_equal:
-            v = (eval(a->l) != eval(a->r)) ? 1 : 0;
+            v = eval(a->l) != eval(a->r);
             break;
         case Equal:
-            v = (eval(a->l) == eval(a->r)) ? 1 : 0;
+            v = eval(a->l) == eval(a->r);
             break;
         case Greater_equal:
-            v = (eval(a->l) >= eval(a->r)) ? 1 : 0;
+            v = eval(a->l) >= eval(a->r);
             break;
         case Less_equal:
-            v = (eval(a->l) <= eval(a->r)) ? 1 : 0;
+            v = eval(a->l) <= eval(a->r);
             break;
         case If_else: {
             struct flow *f = (struct flow *)a;
