@@ -266,9 +266,7 @@ double eval(struct ast *a) {
             struct flow *f = (struct flow *)a;
             v = 0.0;
             if (f->tl) {
-                for (eval(f->init);eval(f->cond) != 0;eval(f->el))
-                    v = eval(f->tl);
-                v = eval(f->tl);
+                for (eval(f->init); eval(f->cond) != 0; eval(f->el),v = eval(f->tl));
             }
             break;
         }

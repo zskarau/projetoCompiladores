@@ -26,7 +26,7 @@
 %left '+' '-'
 %left '*' '/'
 
-%type <a> exp stmt list explist
+%type <a> exp stmt list explist init cond inc
 %type <sl> symlist
 
 %start calclist
@@ -36,9 +36,13 @@ stmt:
       IF exp THEN list                { $$ = newflow(If_else, $2, $4, NULL, NULL); }
     | IF exp THEN list ELSE list      { $$ = newflow(If_else, $2, $4, $6, NULL); }
     | WHILE exp DO list               { $$ = newflow(While, $2, $4, NULL, NULL); }
-    | FOR '(' exp ';' exp ';' exp ')' list { $$ = newflow(For, $5, $9, $7, $3); }
+    | FOR '(' init  ';'cond ';' inc ')' list { $$ = newflow(For, $5, $9, $7, $3); }
     | exp
 ;
+
+init: NAME '=' exp      { $$ = newasgn($1, $3); };
+cond:  exp CMP exp      { $$ = newcmp($2, $1, $3); };
+inc: NAME '=' exp       { $$ = newasgn($1, $3); };
 
 list:
       /* vazio! */                   { $$ = NULL; }
