@@ -36,7 +36,7 @@ stmt:
       IF exp THEN list                { $$ = newflow(If_else, $2, $4, NULL, NULL); }
     | IF exp THEN list ELSE list      { $$ = newflow(If_else, $2, $4, $6, NULL); }
     | WHILE exp DO list               { $$ = newflow(While, $2, $4, NULL, NULL); }
-    | FOR '(' init  ';'cond '; ' inc ')' list { $$ = newflow(For, $5, $9, $7, $3); }
+    | FOR '(' init  ';'cond ';' inc ')' list { $$ = newflow(For, $5, $9, $7, $3); }
     | exp
 ;
 
