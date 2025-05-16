@@ -20,7 +20,7 @@ EXP ([Ee][+-]?[0-9]+)
 "then"  { return THEN; }
 "else"  { return ELSE; }
 "while" { return WHILE; }
-"for" { return FOR; }
+"for"   { return FOR; }
 "do"    { return DO; }
 "let"   { return LET; }
 
