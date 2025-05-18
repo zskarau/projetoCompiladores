@@ -144,6 +144,7 @@ void treefree(struct ast *a) {
         // duas subarvores
         case Addition: case Subtraction: 
         case Multiplication: case Division:
+        case And: case Or:
         case Greater: case Less: case Not_equal: case Equal:
         case Greater_equal: case Less_equal: case Statement:
             treefree(a->r);
@@ -226,6 +227,12 @@ double eval(struct ast *a) {
         case Division:
             v = eval(a->l) / eval(a->r);
             break;
+        case Or:
+            v = eval(a->l) || eval(a->r);
+            break;
+        case And:
+            v = eval(a->l) && eval(a->r);
+            break;
         case Greater:
             v = eval(a->l) > eval(a->r);
             break;
@@ -281,7 +288,7 @@ double eval(struct ast *a) {
             v = calluser((struct ufncall *)a);
             break;
         default:
-            printf("erro interno: bad node %c\n", a->nodetype);
+            printf("erro interno: bad node %d\n", a->nodetype);
     }
 
     return v;

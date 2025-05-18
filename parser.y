@@ -19,10 +19,11 @@
 %token <fn> FUNC
 %token EOL
 
-%token IF THEN ELSE WHILE DO LET FOR
+%token IF THEN ELSE WHILE DO LET FOR AND OR
 
 %nonassoc <fn> CMP
 %right '='
+%left AND OR
 %left '+' '-'
 %left '*' '/'
 
@@ -60,6 +61,8 @@ exp:
     | exp '-' exp        { $$ = newast(Subtraction, $1, $3); }
     | exp '*' exp        { $$ = newast(Multiplication, $1, $3); }
     | exp '/' exp        { $$ = newast(Division, $1, $3); }
+    | exp AND exp       { $$ = newast(And, $1, $3); }
+    | exp OR exp       { $$ = newast(Or, $1, $3); }
     | '(' exp ')'        { $$ = $2; }
     | NUMBER             { $$ = newnum($1); }
     | NAME               { $$ = newref($1); }

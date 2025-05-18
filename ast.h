@@ -62,6 +62,8 @@ typedef enum{   /* Tree evals */
 	Subtraction, //'-'
 	Multiplication, //'*'
 	Division, //'/'	
+    Or,
+    And,
 
 	Greater, //'1'
 	Less, //'2'
