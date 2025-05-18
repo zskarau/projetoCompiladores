@@ -12,33 +12,38 @@ WHILE  ::=  'while'
 DO  ::=  'do'
 LET  ::=  'let'
 
-stmt  ::=  IF WS exp WS THEN list
-    | IF exp THEN list ELSE list
-    | WHILE exp DO list
-    | exp
+<stmt>  ::=  IF WS <exp> WS THEN <list>
+    | IF <exp> THEN <list> ELSE <list>
+    | WHILE <exp> DO <list>
+    | FOR ( <init> ; <cond> ; <inc> )
+    | <exp>
 
-list  ::= ''  
-    | stmt ';' list
+<init>  ::=  NAME  =  <exp>      
+<cond>  ::=  <exp>  CMP  <exp>     
+<inc>  ::=  NAME  =  <exp> 
 
-exp  ::=  exp CMP exp
-    | exp '+' exp
-    | exp '-' exp
-    | exp '*' exp
-    | exp '/' exp
-    | '(' exp ')'
+<list>  ::= ''  
+    | <stmt> ; <list>
+
+<exp>  ::=  <exp> CMP <exp>
+    | <exp> + <exp>
+    | <exp> - <exp>
+    | <exp> * <exp>
+    | <exp> / <exp>
+    | ( <exp> )
     | NUMBER
     | NAME
-    | NAME '=' exp
-    | FUNC '(' explist ')'
-    | NAME '(' explist ')'
+    | NAME = <exp>
+    | FUNC ( <explist> )
+    | NAME ( <explist> )
     
-explist ::= exp
-    | exp ',' explist
+<explist> ::= <exp>
+    | <exp> , <explist>
 
-symlist ::=  NAME
-    | NAME ',' symlist
+<symlist> ::=  NAME
+    | NAME , <symlist>
 
-calclist  ::=  ''
-    | calclist stmt EOL
-    | calclist LET NAME '(' symlist ')' '=' list EOL
-    | calclist 'error' EOL
+<calclist>  ::=  ''
+    | <calclist> <stmt> EOL
+    | <calclist> LET NAME ( <symlist> ) = <list> EOL
+    | <calclist> error EOL
