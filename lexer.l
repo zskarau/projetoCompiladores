@@ -9,8 +9,8 @@ EXP ([Ee][+-]?[0-9]+)
 %%
 "+"|"-"|"*"|"/"|"="|","|";"|"("|")" { return yytext[0]; }
 
-"&&"    { yylval.fn = Greater_equal; return AND; }
-"||"    { yylval.fn = Less_equal; return OR; }
+"&&"    { return AND; }
+"||"    { return OR; }
 
 ">"     { yylval.fn = Greater; return CMP; }    /* operadores de comparação, todos são token CMP */
 "<"     { yylval.fn = Less; return CMP; }
