@@ -8,6 +8,8 @@
 #define AST_H
 
 extern int yylineno;
+extern FILE *yyin;
+
 void yyerror(char *s, ...);
 
 /* tabela de símbolos */
