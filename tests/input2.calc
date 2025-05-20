@@ -1,0 +1,4 @@
+let succ(x) = x+1;
+succ(1)
+let max(x,y) = if x >= y then x; else y;;
+max(5,11.52)
