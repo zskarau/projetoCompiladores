@@ -11,6 +11,7 @@ ELSE  ::=  'else'
 WHILE  ::=  'while'
 DO  ::=  'do'
 LET  ::=  'let'
+FOR  ::=  'for'
 
 <stmt>  ::=  IF WS <exp> WS THEN <list>
     | IF <exp> THEN <list> ELSE <list>
