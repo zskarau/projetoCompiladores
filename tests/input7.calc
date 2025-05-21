@@ -1,0 +1,6 @@
+let max(x, y) = if(x > y) then print(x); else print(y);;
+max(1, 10)
+max(1, 0)
+max(1)
+print()
+let min(x, y) = if(x < y) then print(x); else print(y);
