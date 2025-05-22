@@ -24,7 +24,7 @@ O entendimento dessas notações deve ser pesquisado pela própria equipe, pois 
 Apresentação e Representação das Regras de Análise Léxica
 Para representar as regras léxicas, devem ser usados diagramas de transição.
 
-- [ ] Debuggex
+- [X] Debuggex
 
 ### 2ª Etapa: Implementação do Analisador Léxico
 - [X] Nesta etapa, será implementado o analisador léxico conforme as definições de tokens feitas na 1ª etapa.
@@ -45,22 +45,22 @@ Gerenciamento de Entrada e Saída
 A entrada e saída das informações devem ser gerenciadas e manipuladas através de arquivos.
 
 ### 5ª Etapa: Conjunto de Testes
-- [ ] Elaborar um conjunto de testes significativo, ou seja, que represente todos os elementos da linguagem, como comandos, funções, variáveis, etc.
+- [X] Elaborar um conjunto de testes significativo, ou seja, que represente todos os elementos da linguagem, como comandos, funções, variáveis, etc.
 
 Incluir testes que contenham erros de análise sintática, para garantir que o parser seja capaz de identificá-los corretamente.
 
 ### 6ª Etapa: Escrita do Relatório
-- [ ] Elaborar o relatório do trabalho, conforme especificação fornecida posteriormente.
+- [X] Elaborar o relatório do trabalho, conforme especificação fornecida posteriormente.
 
 ### 7ª Etapa: Preparação da Defesa
-- [ ] Preparar a defesa do trabalho, com todos os integrantes da equipe cientes e aptos a apresentar qualquer parte do projeto.
+- [X] Preparar a defesa do trabalho, com todos os integrantes da equipe cientes e aptos a apresentar qualquer parte do projeto.
 
 ## O que deve ser adicionado?
 
 Tendo a linguagem de Programação Básica (baseada na calculadora vista em aula),
 faz-se necessário adicionar os seguintes elementos:
 
-- [ ] Comando FOR, conforme a sintaxe:
+- [X] Comando FOR, conforme a sintaxe:
       FOR(init; cond; inc) lista-comandos
 
       onde:
@@ -68,6 +68,6 @@ faz-se necessário adicionar os seguintes elementos:
         cond é a condição do laço;
         inc é o incremento do laço.
     
-- [ ] Operadores lógicos AND e OR, considerando que:
+- [X] Operadores lógicos AND e OR, considerando que:
 ambos são associativos à esquerda;
 possuem prioridade menor que os operadores aritméticos.
