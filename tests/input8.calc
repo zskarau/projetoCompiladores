@@ -1,0 +1,18 @@
+if x == 0 || y == 0 then 1; else x;
+let fac(x) = if (x == 0) || (x == 1) then 1; else fac(x-1) * x; ;
+fac(0)
+fac(1)
+fac(2)
+fac(3)
+fac(4)
+let fib(x) = if (x == 0) then 0; else if x == 1 then 1; else fib(x-2)+fib(x-1); ; ;
+fib(0)
+fib(1)
+fib(2)
+fib(3)
+fib(4)
+fib(5)
+fib(6)
+fib(7)
+fib(8)
+fib(9)
