@@ -21,9 +21,9 @@
 
 %token IF THEN ELSE WHILE DO LET FOR AND OR
 
+%left AND OR
 %nonassoc <fn> CMP
 %right '='
-%left AND OR
 %left '+' '-'
 %left '*' '/'
 
@@ -42,7 +42,7 @@ stmt:
 ;
 
 init: NAME '=' exp      { $$ = newasgn($1, $3); };
-cond:  exp CMP exp      { $$ = newcmp($2, $1, $3); };
+cond:  exp  { $$ = $1; };
 inc: NAME '=' exp       { $$ = newasgn($1, $3); };
 
 list:
